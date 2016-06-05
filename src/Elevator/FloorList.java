@@ -1,14 +1,16 @@
 package Elevator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Created by Andrea on 2016-05-21.
  */
 public class FloorList {
 
-    private ArrayList<TargetFloor> floors;
+    private TreeSet<Floor> floors;
 
     /**
      * Floorlist is instantiated.
@@ -20,8 +22,9 @@ public class FloorList {
      * <p>
      */
     public FloorList(){
-        this.floors = new ArrayList<TargetFloor>();
+        this.floors = new TreeSet<Floor>(new FloorComp());
     }
+
 
     /**
      *
@@ -45,10 +48,10 @@ public class FloorList {
             throw new IllegalArgumentException("Call button must have a direction");
         }
 
-        TargetFloor targetFloor = new TargetFloor(floor, direction);
+//        TargetFloor targetFloor = new TargetFloor(floor, direction);
 
         if(!containsFloor(floor, direction)){
-            floors.add(targetFloor);
+            floors.add(floor);
         }
     }
 
@@ -73,13 +76,7 @@ public class FloorList {
             throw new IllegalArgumentException("Call button must have a direction");
         }
 
-
-        for (TargetFloor targetFloor: floors) {
-            if(targetFloor.getFloor().equals(floor) && targetFloor.getDirection().equals(direction)){
-                return true;
-            }
-        }
-        return false;
+        return floors.contains(floor);
     }
 
     /**
@@ -101,7 +98,23 @@ public class FloorList {
             return null;
         }
 
-        return floors.get(0).getFloor();
+        Floor nextFloor = null;
+
+        if(currentDirection == Direction.UP){
+            nextFloor = floors.ceiling(currentFloor);
+
+            if(nextFloor == null){
+                nextFloor = floors.floor(currentFloor);
+            }
+
+        } else {
+            nextFloor = floors.floor(currentFloor);
+
+            if(nextFloor == null){
+                nextFloor = floors.ceiling(currentFloor);
+            }
+        }
+        return nextFloor;
     }
 
     /**
@@ -121,13 +134,24 @@ public class FloorList {
             throw new IllegalArgumentException("Floor must be valid");
         }
 
-        Iterator<TargetFloor> it = floors.iterator();
-        while (it.hasNext()) {
-            if (it.next().getFloor().equals(floor)) {
-                it.remove();
-            }
-        }
+        floors.remove(floor);
     }
 
 
+}
+
+class FloorComp implements Comparator<Floor> {
+
+    @Override
+    public int compare(Floor f1, Floor f2) {
+
+        if(f1.getFloorNumber() < f2.getFloorNumber()){
+            return -1;
+        } else if (f1.getFloorNumber() == f2.getFloorNumber()){
+            return 0;
+        } else {
+            return 1;
+        }
+
+    }
 }

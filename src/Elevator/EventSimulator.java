@@ -32,7 +32,7 @@ public class EventSimulator implements EventSimulatorInterface{
      * @throws IllegalArgumentException if numFloors is invalid
      */
     public boolean isDownCallButtonLit(int floor) throws IllegalArgumentException{
-        if(floor < 1 || floor >= numFloors){
+        if(floor < 0 || floor >= numFloors){
             throw new IllegalArgumentException();
         }
         return elevatorSystem.floors[floor].downButton.isLightOn();
@@ -179,11 +179,10 @@ public class EventSimulator implements EventSimulatorInterface{
      */
     public void tick(){
 
-        if(elevatorSystem.elevator.targetFloor == null){
-            elevatorSystem.elevator.setTargetFloor();
-        }
+        elevatorSystem.elevator.setTargetFloor();
 
         elevatorSystem.getNextFloor();
+
 
         if(elevatorSystem.elevator.targetFloor == elevatorSystem.elevator.getCurrentFloor()){
             elevatorSystem.arrivedAtFloor(elevatorSystem.elevator.targetFloor);

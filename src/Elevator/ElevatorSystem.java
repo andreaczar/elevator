@@ -43,6 +43,8 @@ public class ElevatorSystem {
      * <p>
      */
     public void getNextFloor(){
+        elevator.closeDoor();
+        elevator.getCurrentFloor().closeDoor();
         elevator.getNextFloor();
     }
 
