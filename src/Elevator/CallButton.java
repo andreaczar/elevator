@@ -52,7 +52,7 @@ public class CallButton {
     /**
      * Turn the call buttons light on.
      * <p>
-     * Preconditions: the call button light is off.<br>
+     * Preconditions: N/A <br>
      * Postconditions: the call button light is on.<br>
      * Cleanup: N/A<br>
      * <p>
@@ -64,7 +64,7 @@ public class CallButton {
     /**
      * Turn the call buttons light off.
      * <p>
-     * Preconditions: the call button light is on.<br>
+     * Preconditions: N/A <br>
      * Postconditions: the call button light is off.<br>
      * Cleanup: N/A<br>
      * <p>
