@@ -3,7 +3,7 @@ package Elevator;
 /**
  * Created by Andrea on 2016-05-21.
  */
-public class ElevatorSystem {
+public class ElevatorSystem implements ElevatorSystemInterface{
 
     private Chime chime = new Chime();
     protected Elevator elevator;
@@ -95,7 +95,58 @@ public class ElevatorSystem {
         elevator.openDoor();
         floor.arrived();
         chime.play();
-        elevator.targetFloor = null;
+        elevator.clearTargetFloor();
 
+    }
+
+    /**
+     * Instructs the elevator to add a floor to visit, direction with respect
+     * to the elevators direction.
+     *
+     * Preconditions: N/A
+     * Postconditions: floor is in list of floors to visit
+     *
+     * @param floor the floor to be added
+     */
+    public void addFloor(Floor floor){
+        elevator.addFloor(floor);
+    }
+
+    /**
+     * Instructs the elevator to add a floor to visit, direction explicitly specified.
+     *
+     * Preconditions: N/A
+     * Postconditions: floor is in list of floors to visit
+     *
+     * @param floor the floor to be added
+     * @param direction the direction of travel upon departing floor
+     */
+    public void addFloor(Floor floor, Direction direction){
+        elevator.addFloor(floor, direction);
+    }
+
+    /**
+     * Instructs the elevator to remove the floor from the list of floors to visit.
+     *
+     * Preconditions: the floor is in the list
+     * Postconditions: floor is removed from the list
+     *
+     * @param floor the floor to be removed
+     */
+    public void removeFloor(Floor floor) {
+        elevator.removeFloor(floor);
+    }
+
+    /**
+     * Retrieves the floor.
+     *
+     * Preconditions: N/A
+     * Postconditions: N/A
+     *
+     * @param floorNumber the 0-based index of the floor
+     * @return the floor at the specified index
+     */
+    public Floor getFloor(int floorNumber){
+        return floors[floorNumber];
     }
 }
