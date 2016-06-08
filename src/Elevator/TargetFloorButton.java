@@ -5,7 +5,7 @@ package Elevator;
  */
 public class TargetFloorButton {
 
-    private Floor floor;
+    private CallFloorInterface floor;
     private boolean lightOn = false;
 
     /**
@@ -20,7 +20,7 @@ public class TargetFloorButton {
      * @param floor the target floor button's floor
      * @throws IllegalArgumentException if floor is invalid
      */
-    public TargetFloorButton(Floor floor) throws IllegalArgumentException{
+    public TargetFloorButton(CallFloorInterface floor) throws IllegalArgumentException{
         if(floor == null){
             throw new IllegalArgumentException("Floor must exist");
         }
@@ -67,16 +67,15 @@ public class TargetFloorButton {
     }
 
     /**
-     * Set the target button light on and notify the floor
+     * Set the target button light on.
      *
      * <p>
-     * Preconditions: Elevator at the floor.<br>
-     * Postconditions: floor added, button light on<br>
+     * Preconditions: N/A <br>
+     * Postconditions: button light on<br>
      * Cleanup: N/A<br>
      * <p>
      */
     public void activate() {
         setLightOn();
-        floor.addFloor();
     }
 }
