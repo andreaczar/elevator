@@ -10,7 +10,7 @@ public class Chime {
     /**
      * Play the chime.
      *
-     * Preconditions: arrived at a valid floor.<br>
+     * Preconditions: N/A <br>
      * Postconditions: chime has played and stopped.<br>
      * Cleanup: N/A<br>
      */
