@@ -6,7 +6,7 @@ package Elevator;
 public class CallButton {
 
     private Direction direction;
-    private Floor floor;
+    private CallFloorInterface floor;
     private boolean lightOn;
 
     /**
@@ -21,7 +21,7 @@ public class CallButton {
      * @throws IllegalArgumentException if floor or direction is invalid
      *
      */
-    public CallButton(Direction direction, Floor floor) throws IllegalArgumentException{
+    public CallButton(Direction direction, CallFloorInterface floor) throws IllegalArgumentException{
         if(floor == null){
             throw new IllegalArgumentException("Floor must exist.");
         }
