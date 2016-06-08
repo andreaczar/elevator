@@ -27,11 +27,10 @@ public class FloorList {
 
 
     /**
-     *
      * Adds the current floor to the floorList
      *
      * <p>
-     * Preconditions: a valid floor<br>
+     * Preconditions: a valid floor and direction<br>
      * Postconditions: floor added to the floorList<br>
      * Cleanup: N/A<br>
      * <p>
@@ -47,9 +46,6 @@ public class FloorList {
         if(direction == null){
             throw new IllegalArgumentException("Call button must have a direction");
         }
-
-//        TargetFloor targetFloor = new TargetFloor(floor, direction);
-
         if(!containsFloor(floor, direction)){
             floors.add(floor);
         }
@@ -75,7 +71,6 @@ public class FloorList {
         if(direction == null){
             throw new IllegalArgumentException("Call button must have a direction");
         }
-
         return floors.contains(floor);
     }
 
@@ -90,7 +85,7 @@ public class FloorList {
      *
      * @param currentFloor the current floor the elevator is on
      * @param currentDirection the direction the elevator is travelling
-     * @return the next floor, otherwise null
+     * @return the next floor if there is one, otherwise null
      */
     public Floor nextFloor(Floor currentFloor, Direction currentDirection){
 
