@@ -6,7 +6,7 @@ package Elevator;
 public class Elevator {
 
     private Door door = new Door(); // the elevator's door
-    private ElevatorSystem system;
+    private ElevatorSystemInterface system;
     private FloorList floorList = new FloorList(); //the list of floors to be visited
     private Floor currentFloor;
     protected Floor targetFloor;
@@ -23,13 +23,13 @@ public class Elevator {
      * @param system the elevator's elevator system
      * @throws IllegalArgumentException if system is invalid
      */
-    public Elevator(ElevatorSystem system) throws IllegalArgumentException{
+    public Elevator(ElevatorSystemInterface system) throws IllegalArgumentException{
         if(system == null){
             throw new IllegalArgumentException("Elevator system must be valid.");
         }
 
         this.system = system;
-        this.currentFloor = system.floors[0];
+        this.currentFloor = system.getFloor(0);
     }
 
     /**
@@ -160,9 +160,10 @@ public class Elevator {
 
         if(nextTargetFloor != null){
             if(nextTargetFloor.getFloorNumber() > currentFloor.getFloorNumber()){
-                currentFloor = system.floors[currentFloor.getFloorNumber()+1];
+                currentFloor = system.getFloor(currentFloor.getFloorNumber()+1);
+
             } else if(nextTargetFloor.getFloorNumber() < currentFloor.getFloorNumber()){
-                currentFloor = system.floors[currentFloor.getFloorNumber()-1];
+                currentFloor = system.getFloor(currentFloor.getFloorNumber()-1);
             }
         }
     }
@@ -206,8 +207,18 @@ public class Elevator {
         if(floor == null){
             throw new IllegalArgumentException("Must be a valid floor.");
         }
-        floor.targetButton.activate();
+        floor.callElevator();
         door.close();
         currentFloor.closeDoor();
+    }
+
+    /**
+     * Clear target floor.
+     *
+     * Preconditions: N/A
+     * Postconditions: target floor is null
+     */
+    public void clearTargetFloor(){
+        targetFloor = null;
     }
 }
