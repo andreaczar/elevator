@@ -3,12 +3,12 @@ package Elevator;
 /**
  * Created by Andrea on 2016-05-21.
  */
-public class Floor {
+public class Floor implements CallFloorInterface {
 
     protected CallButton upButton;
     protected CallButton downButton;
     protected TargetFloorButton targetButton;
-    private ElevatorSystem system;
+    private ElevatorSystemInterface system;
     private int floorNumber;
     private Door door;
 
@@ -25,7 +25,7 @@ public class Floor {
      *
      * @throws IllegalArgumentException if floor or system is invalid
      */
-    public Floor(int floorNumber, ElevatorSystem system) throws IllegalArgumentException{
+    public Floor(int floorNumber, ElevatorSystemInterface system) throws IllegalArgumentException{
         if(floorNumber < 0){
             throw new IllegalArgumentException("Must have at least 1 floor.");
         }
@@ -81,7 +81,7 @@ public class Floor {
         if(direction == null){
             throw new IllegalArgumentException("Must have a direction to call the elevator.");
         }
-        system.elevator.addFloor(this, direction);
+        system.addFloor(this, direction);
     }
     /**
      * Elevator has arrived at target floor.
@@ -95,7 +95,7 @@ public class Floor {
     public void arrived(){
         openDoor();
         lightOff();
-        system.elevator.removeFloor(this);
+        system.removeFloor(this);
     }
     /**
      * Turn the target floor's button light off inside the elevator.
@@ -148,10 +148,19 @@ public class Floor {
      * <p>
      */
     public void addFloor(){
-        system.elevator.addFloor(this);
+        system.addFloor(this);
     }
 
 
-
+    /**
+     * Calls the elevator to this floor.
+     *
+     * Preconditions: N/A
+     * Postconditions: target button is activated, floor is added to floor list
+     */
+    public void callElevator(){
+        targetButton.activate();
+        addFloor();
+    }
 
 }
