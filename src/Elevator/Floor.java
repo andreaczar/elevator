@@ -102,7 +102,7 @@ public class Floor implements CallFloorInterface {
      * Also turn the current floor's Up and Down button light's off.
      *
      * <p>
-     * Preconditions: Elevator on the floor.<br>
+     * Preconditions: N/A <br>
      * Postconditions: target, up, down buttons lights are turned off.<br>
      * Cleanup: N/A<br>
      * <p>
@@ -142,7 +142,7 @@ public class Floor implements CallFloorInterface {
      * Adds the current floor to the floorList
      *
      * <p>
-     * Preconditions: a valid floor<br>
+     * Preconditions: N/A <br>
      * Postconditions: floor added to the floorList<br>
      * Cleanup: N/A<br>
      * <p>
