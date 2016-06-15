@@ -7,4 +7,5 @@ public interface CallFloorInterface {
 
     void callElevator(Direction direction);
     void addFloor();
+    int getFloorNumber();
 }

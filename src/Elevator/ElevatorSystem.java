@@ -8,6 +8,7 @@ public class ElevatorSystem implements ElevatorSystemInterface{
     private Chime chime = new Chime();
     protected Elevator elevator;
     protected Floor[] floors;
+    UIController controller;
 
     /**
      * Creates an Elevator system object. Instantiates the Floor[] and
@@ -20,15 +21,15 @@ public class ElevatorSystem implements ElevatorSystemInterface{
      * @param numFloors the number of floors in the elevator system
      * @throws IllegalArgumentException if numFloors is invalid
      */
-    public ElevatorSystem(int numFloors) throws IllegalArgumentException{
+    public ElevatorSystem(int numFloors, UIController controller) throws IllegalArgumentException{
         if( numFloors <= 1){
             throw new IllegalArgumentException("Need more than 1 floor");
         }
-
+        this.controller = controller;
         this.floors = new Floor[numFloors];
 
         for(int i = 0; i < numFloors; i++){
-            floors[i] = new Floor(i, this);
+            floors[i] = new Floor(i, this, controller);
         }
         this.elevator = new Elevator(this);
     }
@@ -45,6 +46,10 @@ public class ElevatorSystem implements ElevatorSystemInterface{
     public void getNextFloor(){
         elevator.closeDoor();
         elevator.getCurrentFloor().closeDoor();
+
+        if(controller != null){
+            controller.setDoorOpen(false, elevator.getCurrentFloor().getFloorNumber());
+        }
         elevator.getNextFloor();
     }
 
@@ -59,6 +64,10 @@ public class ElevatorSystem implements ElevatorSystemInterface{
      */
     public void openDoor(){
         elevator.openDoor();
+
+        if(controller != null){
+            controller.setDoorOpen(true, elevator.getCurrentFloor().getFloorNumber());
+        }
     }
 
     /**
@@ -148,5 +157,15 @@ public class ElevatorSystem implements ElevatorSystemInterface{
      */
     public Floor getFloor(int floorNumber){
         return floors[floorNumber];
+    }
+
+    public void tick() {
+        elevator.setTargetFloor();
+
+        getNextFloor();
+
+        if(elevator.targetFloor == elevator.getCurrentFloor()){
+            arrivedAtFloor(elevator.targetFloor);
+        }
     }
 }

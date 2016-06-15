@@ -17,7 +17,7 @@ public class EventSimulator implements EventSimulatorInterface{
             throw new IllegalArgumentException("Need more than 1 floor");
         }
         numFloors = floors;
-        elevatorSystem = new ElevatorSystem(numFloors);
+        elevatorSystem = new ElevatorSystem(numFloors, null);
     }
 
     /**
@@ -179,13 +179,6 @@ public class EventSimulator implements EventSimulatorInterface{
      */
     public void tick(){
 
-        elevatorSystem.elevator.setTargetFloor();
-
-        elevatorSystem.getNextFloor();
-
-
-        if(elevatorSystem.elevator.targetFloor == elevatorSystem.elevator.getCurrentFloor()){
-            elevatorSystem.arrivedAtFloor(elevatorSystem.elevator.targetFloor);
-        }
+        elevatorSystem.tick();
     }
 }

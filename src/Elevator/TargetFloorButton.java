@@ -7,6 +7,7 @@ public class TargetFloorButton {
 
     private CallFloorInterface floor;
     private boolean lightOn = false;
+    private UIController controller;
 
     /**
      * Create the target floor button for the elevator.
@@ -20,11 +21,12 @@ public class TargetFloorButton {
      * @param floor the target floor button's floor
      * @throws IllegalArgumentException if floor is invalid
      */
-    public TargetFloorButton(CallFloorInterface floor) throws IllegalArgumentException{
+    public TargetFloorButton(CallFloorInterface floor, UIController controller) throws IllegalArgumentException{
         if(floor == null){
             throw new IllegalArgumentException("Floor must exist");
         }
         this.floor = floor;
+        this.controller = controller;
     }
 
     /**
@@ -36,7 +38,12 @@ public class TargetFloorButton {
      * <p>
      */
     public void setLightOn(){
+
         lightOn = true;
+
+        if(controller != null){
+            controller.setTargetButtonLit(true, floor.getFloorNumber());
+        }
     }
 
     /**
@@ -49,6 +56,10 @@ public class TargetFloorButton {
      */
     public void setLightOff(){
         lightOn = false;
+
+        if(controller != null){
+            controller.setTargetButtonLit(false, floor.getFloorNumber());
+        }
     }
 
     /**

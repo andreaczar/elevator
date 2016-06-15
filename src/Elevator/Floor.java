@@ -11,6 +11,7 @@ public class Floor implements CallFloorInterface {
     private ElevatorSystemInterface system;
     private int floorNumber;
     private Door door;
+    private UIController controller;
 
     /**
      *
@@ -25,7 +26,7 @@ public class Floor implements CallFloorInterface {
      *
      * @throws IllegalArgumentException if floor or system is invalid
      */
-    public Floor(int floorNumber, ElevatorSystemInterface system) throws IllegalArgumentException{
+    public Floor(int floorNumber, ElevatorSystemInterface system, UIController controller) throws IllegalArgumentException{
         if(floorNumber < 0){
             throw new IllegalArgumentException("Must have at least 1 floor.");
         }
@@ -33,11 +34,12 @@ public class Floor implements CallFloorInterface {
             throw new IllegalArgumentException("System must be valid.");
         }
         this.floorNumber = floorNumber;
-        this.upButton = new CallButton(Direction.UP, this);
-        this.downButton = new CallButton(Direction.DOWN, this);
-        this.targetButton = new TargetFloorButton(this);
+        this.upButton = new CallButton(Direction.UP, this, controller);
+        this.downButton = new CallButton(Direction.DOWN, this, controller);
+        this.targetButton = new TargetFloorButton(this, controller);
         this.door = new Door();
         this.system = system;
+        this.controller = controller;
     }
 
     /**

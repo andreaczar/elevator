@@ -10,7 +10,8 @@ import java.util.TreeSet;
  */
 public class FloorList {
 
-    private TreeSet<Floor> floors;
+    private TreeSet<Floor> upFloors;
+    private TreeSet<Floor> downFloors;
 
     /**
      * Floorlist is instantiated.
@@ -22,7 +23,9 @@ public class FloorList {
      * <p>
      */
     public FloorList(){
-        this.floors = new TreeSet<Floor>(new FloorComp());
+
+        this.upFloors = new TreeSet<>(new FloorComp());
+        this.downFloors = new TreeSet<>(new FloorComp());
     }
 
 
@@ -46,32 +49,13 @@ public class FloorList {
         if(direction == null){
             throw new IllegalArgumentException("Call button must have a direction");
         }
-        if(!containsFloor(floor, direction)){
-            floors.add(floor);
-        }
-    }
 
-    /**
-     * Checks if the target floor is already contained in the floorList.
-     *
-     * Preconditions: <br>
-     * Postconditions: <br>
-     * Cleanup: N/A<br>
-     * <p>
-     *
-     * @param floor the target floor
-     * @param direction the direction
-     * @return true if the target floor is in the list of floors, false otherwise
-     * @throws IllegalArgumentException if floor or direction is invalid
-     */
-    public boolean containsFloor(Floor floor, Direction direction) throws IllegalArgumentException{
-        if(floor == null){
-            throw new IllegalArgumentException("Floor must exist.");
+        if(direction == Direction.UP && !upFloors.contains(floor)){
+            upFloors.add(floor);
+        } else if (direction == Direction.DOWN && !downFloors.contains(floor)) {
+            downFloors.add(floor);
         }
-        if(direction == null){
-            throw new IllegalArgumentException("Call button must have a direction");
-        }
-        return floors.contains(floor);
+
     }
 
     /**
@@ -89,24 +73,52 @@ public class FloorList {
      */
     public Floor nextFloor(Floor currentFloor, Direction currentDirection){
 
-        if(floors.isEmpty()){
+        if(upFloors.isEmpty() && downFloors.isEmpty()){
             return null;
         }
 
         Floor nextFloor = null;
 
         if(currentDirection == Direction.UP){
-            nextFloor = floors.ceiling(currentFloor);
 
-            if(nextFloor == null){
-                nextFloor = floors.floor(currentFloor);
+
+            nextFloor = upFloors.ceiling(currentFloor);
+
+            if(nextFloor == null && !downFloors.isEmpty()){
+                nextFloor = downFloors.last();
             }
 
-        } else {
-            nextFloor = floors.floor(currentFloor);
+            if(nextFloor == null){
+                nextFloor = upFloors.first();
+            }
+
+
+
+        } else if (currentDirection == Direction.DOWN) {
+            nextFloor = downFloors.floor(currentFloor);
+
+            if(nextFloor == null && !upFloors.isEmpty()){
+                nextFloor = upFloors.first();
+            }
 
             if(nextFloor == null){
-                nextFloor = floors.ceiling(currentFloor);
+                nextFloor = downFloors.last();
+            }
+
+
+
+        } else {
+            if(!upFloors.isEmpty()){
+                nextFloor = upFloors.floor(currentFloor);
+                if(nextFloor == null){
+                    nextFloor = upFloors.ceiling(currentFloor);
+                }
+            }
+            else if(!downFloors.isEmpty()){
+                nextFloor = downFloors.ceiling(currentFloor);
+                if(nextFloor == null){
+                    nextFloor = downFloors.floor(currentFloor);
+                }
             }
         }
         return nextFloor;
@@ -129,7 +141,8 @@ public class FloorList {
             throw new IllegalArgumentException("Floor must be valid");
         }
 
-        floors.remove(floor);
+        upFloors.remove(floor);
+        downFloors.remove(floor);
     }
 
 

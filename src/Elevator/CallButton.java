@@ -8,6 +8,7 @@ public class CallButton {
     private Direction direction;
     private CallFloorInterface floor;
     private boolean lightOn;
+    private UIController controller;
 
     /**
      * Creates a CallButton object for each floor.
@@ -21,7 +22,7 @@ public class CallButton {
      * @throws IllegalArgumentException if floor or direction is invalid
      *
      */
-    public CallButton(Direction direction, CallFloorInterface floor) throws IllegalArgumentException{
+    public CallButton(Direction direction, CallFloorInterface floor, UIController controller) throws IllegalArgumentException{
         if(floor == null){
             throw new IllegalArgumentException("Floor must exist.");
         }
@@ -29,9 +30,11 @@ public class CallButton {
             throw new IllegalArgumentException("Call button must have a direction");
         }
 
+
         this.direction = direction;
         this.floor = floor;
         this.lightOn = false;
+        this.controller = controller;
     }
 
     /**
@@ -59,6 +62,10 @@ public class CallButton {
      */
     public void setLightOn(){
         lightOn = true;
+
+        if(controller != null){
+            controller.setCallButtonLit(direction, true, floor.getFloorNumber());
+        }
     }
 
     /**
@@ -71,6 +78,10 @@ public class CallButton {
      */
     public void setLightOff(){
         lightOn = false;
+
+        if(controller != null){
+            controller.setCallButtonLit(direction, false, floor.getFloorNumber());
+        }
     }
 
     /**
